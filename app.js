@@ -4,7 +4,7 @@
 
 // --- STATE ---
 const state = {
-  activeNav: 'scenarios', // 'scenarios', 'passages', or 'compass'
+  activeNav: 'scenarios', // 'scenarios', 'passages', 'compass', or 'tapestry'
   currentScreen: 'home-screen',
   
   // Scenarios State
@@ -29,6 +29,7 @@ const screens = {
   'passage-play-screen': document.getElementById('passage-play-screen'),
   'compass-home-screen': document.getElementById('compass-home-screen'),
   'compass-play-screen': document.getElementById('compass-play-screen'),
+  'tapestry-screen': document.getElementById('tapestry-screen'),
 };
 
 const particlesContainer = document.getElementById('particles-container');
@@ -38,11 +39,13 @@ function initApp() {
   buildHomeScreen();
   buildPassagesScreen();
   buildCompassScreen();
+  buildTapestryScreen();
 
   // Bottom Nav
   document.getElementById('nav-scenarios').addEventListener('click', () => switchNav('scenarios', 'home-screen'));
   document.getElementById('nav-passages').addEventListener('click', () => switchNav('passages', 'passages-home-screen'));
   document.getElementById('nav-compass').addEventListener('click', () => switchNav('compass', 'compass-home-screen'));
+  document.getElementById('nav-tapestry').addEventListener('click', () => switchNav('tapestry', 'tapestry-screen'));
 
   // Scenario Buttons
   document.getElementById('back-from-scenario').addEventListener('click', () => transitionTo('home-screen'));
@@ -77,16 +80,7 @@ function initApp() {
   screens['home-screen'].classList.add('active');
 }
 
-function switchNav(navId, screenId) {
-  if (state.activeNav === navId) return;
-  state.activeNav = navId;
-  
-  // Update nav UI
-  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
-  document.getElementById(`nav-${navId}`).classList.add('active');
-  
-  transitionTo(screenId);
-}
+
 
 // --- SCREEN TRANSITIONS ---
 function transitionTo(name) {
@@ -473,6 +467,64 @@ function openCompass(id) {
 
 
 // ============================================
+//   TAPESTRY LOGIC (LEGACY)
+// ============================================
+
+function buildTapestryScreen() {
+  const list = document.getElementById('tapestry-list');
+  const empty = document.getElementById('tapestry-empty');
+  if (!list || !empty) return;
+
+  list.innerHTML = '';
+  
+  const idsInJournal = Object.keys(state.journalEntries).filter(id => state.journalEntries[id].trim().length > 0);
+
+  if (idsInJournal.length === 0) {
+    empty.style.display = 'block';
+    list.style.display = 'none';
+  } else {
+    empty.style.display = 'none';
+    list.style.display = 'flex';
+
+    idsInJournal.forEach((id, i) => {
+      const s = SCENARIOS.find(sc => sc.id === id);
+      if (!s) return;
+
+      const card = document.createElement('div');
+      card.className = `tapestry-card fade-up delay-${Math.min(i + 1, 6)}`;
+      card.innerHTML = `
+        <div class="tapestry-header">
+          <div class="tapestry-theme-info">
+            <span class="tapestry-icon">${s.icon}</span>
+            <span class="tapestry-theme">${s.theme}</span>
+          </div>
+          <div class="tapestry-ref">${s.bookTitle}</div>
+        </div>
+        <div class="tapestry-entry">"${state.journalEntries[id]}"</div>
+      `;
+      list.appendChild(card);
+    });
+  }
+}
+
+// Ensure tapestry refreshes whenever the nav is switched
+function switchNav(navId, screenId) {
+  if (state.activeNav === navId && state.currentScreen === screenId) return;
+  state.activeNav = navId;
+  
+  // Refresh content if switching into it
+  if (navId === 'tapestry') buildTapestryScreen();
+  if (navId === 'scenarios') buildHomeScreen();
+
+  // Update nav UI
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  document.getElementById(`nav-${navId}`).classList.add('active');
+  
+  transitionTo(screenId);
+}
+
+
+// ============================================
 //   UTILITIES
 // ============================================
 
@@ -513,7 +565,7 @@ const TOAST_VERSES = [
 
 function showWisdomToast() {
   // Only show if user is on the main screens
-  const mainScreens = ['home-screen', 'passages-home-screen', 'compass-home-screen'];
+  const mainScreens = ['home-screen', 'passages-home-screen', 'compass-home-screen', 'tapestry-screen'];
   if (!mainScreens.includes(state.currentScreen)) return;
 
   const container = document.getElementById('wisdom-toast-container');
