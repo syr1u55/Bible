@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Word in Your World — Bible Simulator</title>
+  <meta name="description" content="Face modern-day dilemmas and learn biblical wisdom. An interactive experience for adults." />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- PARTICLES -->
+<div class="particles-container" id="particles-container"></div>
+
+<!-- WISDOM TOAST POPUPS -->
+<div id="wisdom-toast-container" class="wisdom-toast-container"></div>
+
+<!-- BOTTOM NAVIGATION -->
+<nav class="bottom-nav">
+  <button class="nav-item active" id="nav-scenarios">
+    <span class="nav-icon">💡</span>
+    <span class="nav-text">Life Scenarios</span>
+  </button>
+  <button class="nav-item" id="nav-passages">
+    <span class="nav-icon">📜</span>
+    <span class="nav-text">Wisdom Passages</span>
+  </button>
+</nav>
+
+<!-- =============================================
+     SCREEN 1: SCENARIOS HOME (Default)
+     ============================================= -->
+<section class="screen active" id="home-screen">
+  <header class="home-header">
+    <p class="eyebrow">Bible Simulation by CRUZE Solutions</p>
+    <h1>The Word<br/><span>in Your World</span></h1>
+    <p>Face real-life dilemmas. Discover how ancient biblical wisdom speaks directly into your modern day.</p>
+  </header>
+
+  <div class="stats-bar">
+    <div class="stat-chip"><span>📖</span><span><span class="stat-val" id="stat-completed">0</span> of <span id="stat-total">10</span> completed</span></div>
+  </div>
+
+  <p class="theme-grid-label">Choose a life theme to explore</p>
+  <div class="theme-grid" id="theme-grid"></div>
+</section>
+
+
+<!-- =============================================
+     SCREEN 2: SCENARIO PLAY
+     ============================================= -->
+<section class="screen" id="scenario-screen">
+  <div class="scenario-container">
+    <button class="back-btn" id="back-from-scenario">← All Themes</button>
+    <div class="scenario-theme-label">
+      <span class="scenario-theme-icon" id="scenario-icon">🕊️</span>
+      <span class="scenario-theme-name" id="scenario-theme-name">Theme</span>
+    </div>
+    <div class="scenario-card fade-up">
+      <p class="scenario-story" id="scenario-story"></p>
+    </div>
+    <p class="choices-label">How do you respond?</p>
+    <div class="choices-grid" id="choices-grid"></div>
+  </div>
+</section>
+
+<!-- =============================================
+     SCREEN 3: REVELATION
+     ============================================= -->
+<section class="screen" id="revelation-screen">
+  <div class="revelation-container">
+    <button class="back-btn" id="back-from-revelation">← Back to Scenario</button>
+    <div id="alignment-badge" class="alignment-badge wisdom">✨ The Wisdom Path</div>
+    <h2 class="revelation-title" id="revelation-title">The Lesson</h2>
+    <p class="revelation-subtitle" id="revelation-subtitle">Reference</p>
+    <div class="chosen-answer-display" id="chosen-answer-display"></div>
+    <div class="verse-card fade-up delay-1">
+      <div class="verse-ref" id="verse-ref">Ref</div>
+      <blockquote class="verse-text" id="verse-text"></blockquote>
+    </div>
+    <div class="lesson-card fade-up delay-2">
+      <p class="lesson-label">What This Teaches</p>
+      <p class="lesson-text" id="lesson-text"></p>
+    </div>
+    <div class="btn-row fade-up delay-3">
+      <button class="btn btn-primary" id="btn-reflect">Reflect on This →</button>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     SCREEN 4: REFLECTION
+     ============================================= -->
+<section class="screen" id="reflection-screen">
+  <div class="reflection-container">
+    <div class="gem-animation"><span class="gem-icon" id="gem-icon">🕊️</span></div>
+    <h2 class="gem-title" id="gem-title">Gem</h2>
+    <p class="gem-subtitle">Wisdom Unlocked</p>
+    <div class="divider"></div>
+    <p class="reflection-prompt" id="reflection-prompt"></p>
+    <textarea class="journal-area" id="journal-textarea" placeholder="Write your thoughts here…"></textarea>
+    <div class="btn-row">
+      <button class="btn btn-secondary" id="back-from-reflection">← Themes</button>
+    </div>
+  </div>
+</section>
+
+<!-- =============================================
+     SCREEN 5: PASSAGES HOME
+     ============================================= -->
+<section class="screen" id="passages-home-screen">
+  <header class="home-header">
+    <p class="eyebrow">Scripture Memory & Focus</p>
+    <h1>Wisdom<br/><span>Passages</span></h1>
+    <p>Engage your mind with the timeless poetry and truth of scripture. Fill in the missing words to complete the passages.</p>
+  </header>
+  
+  <p class="theme-grid-label">Select a Passage</p>
+  <div class="theme-grid" id="passages-grid"></div>
+</section>
+
+<!-- =============================================
+     SCREEN 6: PASSAGE PLAY
+     ============================================= -->
+<section class="screen" id="passage-play-screen">
+  <div class="passage-container">
+    <button class="back-btn" id="back-from-passage">← All Passages</button>
+    
+    <div class="passage-header">
+      <h2 class="passage-title" id="passage-title">Title</h2>
+      <p class="passage-ref" id="passage-ref">Reference</p>
+    </div>
+
+    <!-- The Play Area -->
+    <div class="passage-card fade-up">
+      <div id="passage-text-area" class="passage-text-area"></div>
+    </div>
+
+    <!-- The Word Bank -->
+    <p class="choices-label">Word Bank (Tap a word, then tap a blank)</p>
+    <div class="word-bank" id="word-bank"></div>
+
+    <div class="btn-row" style="margin-top:2rem">
+      <button class="btn btn-primary fade-up delay-2" id="passage-solve-btn" style="display:none;">Check Answers</button>
+      <button class="btn btn-secondary fade-up delay-2" id="passage-reset-btn">Reset</button>
+    </div>
+  </div>
+</section>
+
+
+<script src="scenarios.js"></script>
+<script src="passages.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
