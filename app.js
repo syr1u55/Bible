@@ -418,6 +418,10 @@ function checkPassageAnswers() {
       localStorage.setItem('bs_passages_completed', JSON.stringify(completed));
     }
   } else {
+    const card = document.querySelector('.passage-card');
+    card.classList.add('shake');
+    setTimeout(() => card.classList.remove('shake'), 400);
+
     document.getElementById('passage-solve-btn').textContent = "Try Again";
     setTimeout(() => {
       document.getElementById('passage-solve-btn').textContent = "Check Answers";
