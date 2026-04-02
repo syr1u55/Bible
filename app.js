@@ -63,6 +63,7 @@ function initApp() {
     transitionTo('passages-home-screen');
     setTimeout(buildPassagesScreen, 400);
   });
+  document.getElementById('passage-solve-btn').addEventListener('click', checkPassageAnswers);
   document.getElementById('passage-reset-btn').addEventListener('click', () => renderPassagePlayScreen(state.currentPassage));
 
   // Compass Buttons
@@ -366,7 +367,7 @@ function handleSlotClick(slot) {
     if (currentWordInSlot) {
       unuseWordInBank(currentWordInSlot);
       slot.textContent = "______";
-      slot.classList.remove('filled');
+      slot.classList.remove('filled', 'correct', 'incorrect');
       state.slots[idx] = null;
       document.getElementById('passage-solve-btn').style.display = 'none';
     }
@@ -398,12 +399,11 @@ function checkPassageAnswers() {
   
   document.querySelectorAll('.blank-slot').forEach(slot => {
     const idx = parseInt(slot.getAttribute('data-index'), 10);
+    slot.classList.remove('correct', 'incorrect');
     if (state.slots[idx] === correctWords[idx]) {
-      slot.style.borderBottomColor = 'var(--success)';
-      slot.style.color = 'var(--success)';
+      slot.classList.add('correct');
     } else {
-      slot.style.borderBottomColor = 'var(--warning)';
-      slot.style.color = 'var(--warning)';
+      slot.classList.add('incorrect');
       allCorrect = false;
     }
   });

@@ -922,9 +922,19 @@ body::before {
 }
 
 .blank-slot.filled {
-  border-bottom-color: var(--success);
-  color: var(--success);
+  border-bottom-color: var(--gold-light);
+  color: var(--parchment);
   font-weight: 500;
+}
+
+.blank-slot.correct {
+  border-bottom-color: var(--success) !important;
+  color: var(--success) !important;
+}
+
+.blank-slot.incorrect {
+  border-bottom-color: var(--warning) !important;
+  color: var(--warning) !important;
 }
 
 .word-bank {
