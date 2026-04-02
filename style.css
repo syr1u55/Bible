@@ -43,16 +43,14 @@ body {
 
 /* --- GLOBAL BRANDING --- */
 .global-branding {
-  position: absolute;
-  top: 1.25rem;
-  left: 0;
-  width: 100%;
-  text-align: center;
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
   font-size: 0.72rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   color: var(--gold);
-  opacity: 0.6;
+  opacity: 0.8;
   z-index: 100;
   pointer-events: none;
 }
