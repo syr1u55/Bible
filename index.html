@@ -25,6 +25,10 @@
     <span class="nav-icon">📜</span>
     <span class="nav-text">Wisdom Passages</span>
   </button>
+  <button class="nav-item" id="nav-compass">
+    <span class="nav-icon">🧭</span>
+    <span class="nav-text">Proverbial Compass</span>
+  </button>
 </nav>
 
 <!-- =============================================
@@ -148,8 +152,49 @@
 </section>
 
 
+<!-- =============================================
+     SCREEN 7: COMPASS HOME
+     ============================================= -->
+<section class="screen" id="compass-home-screen">
+  <header class="home-header">
+    <p class="eyebrow">The Proverbial Compass</p>
+    <h1>How are you<br/><span>feeling today?</span></h1>
+    <p>Select an emotion to receive a custom wisdom prescription drawing directly from scripture.</p>
+  </header>
+  <div class="theme-grid" id="compass-grid"></div>
+</section>
+
+<!-- =============================================
+     SCREEN 8: COMPASS PRESCRIPTION
+     ============================================= -->
+<section class="screen" id="compass-play-screen">
+  <div class="revelation-container">
+    <button class="back-btn" id="back-from-compass">← Back to Compass</button>
+    <div id="compass-badge" class="alignment-badge wisdom" style="margin-bottom:1rem; border-color:var(--card-accent); color:var(--card-accent); background:rgba(0,0,0,0.2);">
+      <span id="compass-icon">🧭</span>
+    </div>
+    <h2 class="revelation-title" id="compass-title">Emotion</h2>
+    
+    <div class="verse-card fade-up delay-1" style="margin-top:2rem;">
+      <div class="verse-ref" id="compass-ref">Ref</div>
+      <blockquote class="verse-text" id="compass-verse"></blockquote>
+    </div>
+
+    <div class="lesson-card fade-up delay-2">
+      <p class="lesson-label">Wisdom Prescription</p>
+      <p class="lesson-text" id="compass-prescription"></p>
+    </div>
+
+    <div class="lesson-card fade-up delay-3" style="background:rgba(255,255,255,0.02)">
+      <p class="lesson-label">Guided Prayer</p>
+      <p class="lesson-text" style="font-style:italic;" id="compass-prayer"></p>
+    </div>
+  </div>
+</section>
+
 <script src="scenarios.js"></script>
 <script src="passages.js"></script>
+<script src="compass.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
