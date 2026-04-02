@@ -4,7 +4,7 @@
 
 // --- STATE ---
 const state = {
-  activeNav: 'scenarios', // 'scenarios' or 'passages'
+  activeNav: 'scenarios', // 'scenarios', 'passages', or 'compass'
   currentScreen: 'home-screen',
   
   // Scenarios State
@@ -27,6 +27,8 @@ const screens = {
   'reflection-screen': document.getElementById('reflection-screen'),
   'passages-home-screen': document.getElementById('passages-home-screen'),
   'passage-play-screen': document.getElementById('passage-play-screen'),
+  'compass-home-screen': document.getElementById('compass-home-screen'),
+  'compass-play-screen': document.getElementById('compass-play-screen'),
 };
 
 const particlesContainer = document.getElementById('particles-container');
@@ -35,10 +37,12 @@ const particlesContainer = document.getElementById('particles-container');
 function initApp() {
   buildHomeScreen();
   buildPassagesScreen();
+  buildCompassScreen();
 
   // Bottom Nav
   document.getElementById('nav-scenarios').addEventListener('click', () => switchNav('scenarios', 'home-screen'));
   document.getElementById('nav-passages').addEventListener('click', () => switchNav('passages', 'passages-home-screen'));
+  document.getElementById('nav-compass').addEventListener('click', () => switchNav('compass', 'compass-home-screen'));
 
   // Scenario Buttons
   document.getElementById('back-from-scenario').addEventListener('click', () => transitionTo('home-screen'));
@@ -59,8 +63,10 @@ function initApp() {
     transitionTo('passages-home-screen');
     setTimeout(buildPassagesScreen, 400);
   });
-  document.getElementById('passage-solve-btn').addEventListener('click', checkPassageAnswers);
   document.getElementById('passage-reset-btn').addEventListener('click', () => renderPassagePlayScreen(state.currentPassage));
+
+  // Compass Buttons
+  document.getElementById('back-from-compass').addEventListener('click', () => transitionTo('compass-home-screen'));
 
   // Pop-up Toast Interval
   setInterval(showWisdomToast, 25000); // Trigger every 25s
@@ -419,6 +425,48 @@ function checkPassageAnswers() {
   }
 }
 
+// ============================================
+//   COMPASS LOGIC
+// ============================================
+
+function buildCompassScreen() {
+  const grid = document.getElementById('compass-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  
+  COMPASS_DATA.forEach((c, i) => {
+    const card = document.createElement('div');
+    card.className = `theme-card fade-up delay-${Math.min(i + 1, 6)}`;
+    card.style.setProperty('--card-accent', c.color);
+    card.style.setProperty('--card-color-a', hexToRgba(c.color, 0.08));
+    card.style.setProperty('--card-color-b', hexToRgba(c.color, 0.02));
+    card.innerHTML = `
+      <span class="card-icon">${c.icon}</span>
+      <div class="card-theme">${c.emotion}</div>
+    `;
+    card.addEventListener('click', () => openCompass(c.id));
+    grid.appendChild(card);
+  });
+}
+
+function openCompass(id) {
+  const c = COMPASS_DATA.find(x => x.id === id);
+  if (!c) return;
+  
+  document.getElementById('compass-title').textContent = `Feeling ${c.emotion}`;
+  document.getElementById('compass-ref').textContent = c.ref;
+  document.getElementById('compass-verse').textContent = c.verse;
+  document.getElementById('compass-prescription').textContent = c.prescription;
+  document.getElementById('compass-prayer').textContent = `"${c.prayer}"`;
+  
+  const badge = document.getElementById('compass-badge');
+  badge.style.color = c.color;
+  badge.style.borderColor = c.color;
+  document.getElementById('compass-icon').textContent = c.icon;
+  
+  transitionTo('compass-play-screen');
+}
+
 
 // ============================================
 //   UTILITIES
@@ -461,7 +509,8 @@ const TOAST_VERSES = [
 
 function showWisdomToast() {
   // Only show if user is on the main screens
-  if (state.currentScreen !== 'home-screen' && state.currentScreen !== 'passages-home-screen') return;
+  const mainScreens = ['home-screen', 'passages-home-screen', 'compass-home-screen'];
+  if (!mainScreens.includes(state.currentScreen)) return;
 
   const container = document.getElementById('wisdom-toast-container');
   if (!container) return;
